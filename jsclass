@@ -1,0 +1,56 @@
+// Callback
+
+SPICEADDONS = {};
+SPICEADDONS.noop = function(){};
+SPICEADDONS.getProductId = (callback = null) => {                 // => arrow function is use for call ajax
+    if(callback === null){
+        callback = SPICEADDONS.noop;
+    }
+    return $.getJSON(window.location.href).then(callback(data))
+}
+SPICEADDONS.getRelationFromBackend = (productJson) => {
+    var productId = data.shop.id
+    var href = "https://localhost/spiceaddons/public/productidapi";
+
+    return $.ajax({
+        url: href,
+        type: "jsonp",
+        data: {shop:shop_id,product_id: productJson.id},
+        success: function(data){
+        }
+    });
+}
+SPICEADDONS.getProductRelation = () => {
+
+    SPICEADDONS.getProductId(
+        SPICEADDONS.getRelationFromBackend
+    )
+
+}
+
+//PROMISES
+
+SPICEADDONS = {};
+SPICEADDONS.noop = function(){};
+SPICEADDONS.getProductId = () => {
+    return $.getJSON(window.location.href)
+}
+SPICEADDONS.getRelationFromBackend = (productJson) => {
+    var productId = data.shop.id
+    var href = "https://localhost/spiceaddons/public/productidapi";
+
+    return $.ajax({
+        url: href,
+        type: "jsonp",
+        data: {shop:shop_id,product_id: productJson.id},
+    });
+}
+SPICEADDONS.getProductRelation = () => {
+    $.when(SPICEADDONS.getProductId).done(
+        $.when(SPICEADDONS.getRelationFromBackend).then()
+    );
+
+}
+
+
+// Asyn and Await
